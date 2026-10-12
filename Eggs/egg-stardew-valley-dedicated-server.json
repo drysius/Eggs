@@ -1,0 +1,152 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-10-11T00:00:00-03:00",
+    "name": "Stardew Valley Dedicated Server",
+    "author": "urubucode@gmail.com",
+    "description": "Servidor dedicado de Stardew Valley (Junimo Server) adaptado para rodar em um unico container no Pterodactyl.\r\n\r\nUpstream: https://github.com/stardew-valley-dedicated-server/server\r\nImagem: ghcr.io/drysius/games:stardew-valley-server (construida via York)\r\n\r\nRequer uma conta Steam que possua Stardew Valley. Os arquivos do jogo sao baixados no primeiro boot. Use STEAM_REFRESH_TOKEN para evitar o Steam Guard interativo.",
+    "features": null,
+    "docker_images": {
+        "Stardew Dedicated (amd64)": "ghcr.io\/drysius\/games:stardew-valley-server"
+    },
+    "file_denylist": [],
+    "startup": "bash \/ptero-entrypoint.sh",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"context: Loaded save\",\r\n    \"userInteraction\": []\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# O jogo e baixado da Steam no primeiro boot pelo steam-service embutido na imagem.\r\n# Aqui so garantimos a estrutura de pastas no volume persistente do Pterodactyl.\r\nmkdir -p \/mnt\/server\/data\/game \/mnt\/server\/data\/Mods \/mnt\/server\/config\/xdg\/config\/StardewValley\r\necho \"Estrutura criada. O jogo sera baixado da Steam no primeiro boot.\"\r\n",
+            "container": "ghcr.io\/parkervcp\/installers:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Steam - Usuario",
+            "description": "Usuario da conta Steam que possui Stardew Valley. Usado para baixar os arquivos do jogo. Depois do primeiro login com token salvo, o usuario sozinho ja seleciona o login salvo.",
+            "env_variable": "STEAM_USERNAME",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:64",
+            "field_type": "text"
+        },
+        {
+            "name": "Steam - Senha",
+            "description": "Senha da conta Steam. Deixe vazio se for usar STEAM_REFRESH_TOKEN. ATENCAO: fica visivel; prefira o token.",
+            "env_variable": "STEAM_PASSWORD",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:128",
+            "field_type": "text"
+        },
+        {
+            "name": "Steam - Refresh Token",
+            "description": "Token de refresh da Steam (recomendado). Evita o prompt de Steam Guard 2FA no ambiente sem terminal do Pterodactyl. Gere rodando o 'setup' do projeto uma vez localmente.",
+            "env_variable": "STEAM_REFRESH_TOKEN",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "field_type": "text"
+        },
+        {
+            "name": "API Key",
+            "description": "Chave da API HTTP. Obrigatoria para iniciar com seguranca; sem ela e preciso ALLOW_INSECURE_SETUP=true.",
+            "env_variable": "API_KEY",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:128",
+            "field_type": "text"
+        },
+        {
+            "name": "Permitir Setup Inseguro",
+            "description": "Permite iniciar sem API_KEY/VNC_PASSWORD (apenas para testes). Use 'true' ou vazio.",
+            "env_variable": "ALLOW_INSECURE_SETUP",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "Porta da API",
+            "description": "Porta TCP da API HTTP (deve ser a porta primaria alocada ao servidor).",
+            "env_variable": "API_PORT",
+            "default_value": "8080",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|numeric",
+            "field_type": "text"
+        },
+        {
+            "name": "Porta do Jogo (UDP)",
+            "description": "Porta UDP de multiplayer via Steam relay.",
+            "env_variable": "GAME_PORT",
+            "default_value": "24642",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|numeric",
+            "field_type": "text"
+        },
+        {
+            "name": "Porta de Query (UDP)",
+            "description": "Porta UDP de consulta Steam.",
+            "env_variable": "QUERY_PORT",
+            "default_value": "27015",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|numeric",
+            "field_type": "text"
+        },
+        {
+            "name": "Nome do Servidor",
+            "description": "Nome exibido do servidor (padrao: nome da fazenda).",
+            "env_variable": "SERVER_NAME",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:60",
+            "field_type": "text"
+        },
+        {
+            "name": "Senha do Servidor",
+            "description": "Exige !login <senha> para os jogadores. Vazio = desativado.",
+            "env_variable": "SERVER_PASSWORD",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:60",
+            "field_type": "text"
+        },
+        {
+            "name": "Ticks por segundo (TPS)",
+            "description": "TPS alvo (padrao e maximo 60, minimo 1). Menor reduz CPU.",
+            "env_variable": "SERVER_TPS",
+            "default_value": "60",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|numeric|between:1,60",
+            "field_type": "text"
+        },
+        {
+            "name": "Senha VNC",
+            "description": "Senha da UI web de VNC (max 8 chars). Vazio = VNC desativado. (A UI web de VNC nao e exposta por padrao nesta adaptacao de container unico.)",
+            "env_variable": "VNC_PASSWORD",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:8",
+            "field_type": "text"
+        }
+    ]
+}
