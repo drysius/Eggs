@@ -89,12 +89,12 @@
             "field_type": "text"
         },
         {
-            "name": "Porta do Jogo (UDP) - FIXA 24642",
-            "description": "Porta UDP de multiplayer do Stardew. E FIXA em 24642 pelo proprio jogo (clientes conectam nela por IP). Aloque 24642/udp como porta PRIMARIA do servidor para conexao por IP direto. Conexao por invite code (Steam relay) nao precisa de porta.",
+            "name": "Porta do Jogo (UDP)",
+            "description": "Porta UDP de multiplayer. Segue a porta primaria alocada (SERVER_PORT). Jogadores conectam por IP (IP:porta) ou por invite code (Steam relay, sem porta). Padrao 24642.",
             "env_variable": "GAME_PORT",
             "default_value": "24642",
             "user_viewable": true,
-            "user_editable": false,
+            "user_editable": true,
             "rules": "required|numeric",
             "field_type": "text"
         },
