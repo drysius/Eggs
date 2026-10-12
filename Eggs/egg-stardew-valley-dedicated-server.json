@@ -80,7 +80,7 @@
         },
         {
             "name": "Porta da API",
-            "description": "Porta TCP da API HTTP (deve ser a porta primaria alocada ao servidor).",
+            "description": "Porta TCP da API HTTP. Por padrao o servidor usa a porta primaria alocada (SERVER_PORT) automaticamente; este valor so e usado como fallback.",
             "env_variable": "API_PORT",
             "default_value": "8080",
             "user_viewable": true,
