@@ -110,7 +110,7 @@
         },
         {
             "name": "Permitir Conexao por IP",
-            "description": "Habilita conexao por IP direto (alem do invite code). Ativado por padrao por ser um servidor host. 'true' ou 'false'. Requer a porta 24642/udp alocada.",
+            "description": "Habilita conexao por IP direto (alem do invite code). Ativado por padrao. 'true' ou 'false'. O jogo escuta FIXO na 24642/udp dentro do container, entao a alocacao PRIMARIA do servidor precisa ser a porta 24642/udp para a conexao por IP funcionar. Jogadores conectam em IP:24642. O invite code (Steam relay) funciona em qualquer porta.",
             "env_variable": "ALLOW_IP_CONNECTIONS",
             "default_value": "true",
             "user_viewable": true,
