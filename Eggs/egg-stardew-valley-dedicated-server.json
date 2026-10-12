@@ -16,7 +16,7 @@
     "startup": "bash \/ptero-entrypoint.sh",
     "config": {
         "files": "{}",
-        "startup": "{\r\n    \"done\": \"context: Loaded save\",\r\n    \"userInteraction\": []\r\n}",
+        "startup": "{\r\n    \"done\": \"API server listening on port\",\r\n    \"userInteraction\": []\r\n}",
         "logs": "{}",
         "stop": "^C"
     },
@@ -80,17 +80,17 @@
         },
         {
             "name": "Porta da API",
-            "description": "Porta TCP da API HTTP. Por padrao o servidor usa a porta primaria alocada (SERVER_PORT) automaticamente; este valor so e usado como fallback.",
+            "description": "Porta TCP da API HTTP (admin / ferramentas externas). Aloque uma porta e informe aqui. NAO use a mesma porta do jogo (24642).",
             "env_variable": "API_PORT",
             "default_value": "8080",
             "user_viewable": true,
-            "user_editable": false,
+            "user_editable": true,
             "rules": "required|numeric",
             "field_type": "text"
         },
         {
-            "name": "Porta do Jogo (UDP)",
-            "description": "Porta UDP de multiplayer via Steam relay.",
+            "name": "Porta do Jogo (UDP) - FIXA 24642",
+            "description": "Porta UDP de multiplayer do Stardew. E FIXA em 24642 pelo proprio jogo (clientes conectam nela por IP). Aloque 24642/udp como porta PRIMARIA do servidor para conexao por IP direto. Conexao por invite code (Steam relay) nao precisa de porta.",
             "env_variable": "GAME_PORT",
             "default_value": "24642",
             "user_viewable": true,
@@ -100,12 +100,32 @@
         },
         {
             "name": "Porta de Query (UDP)",
-            "description": "Porta UDP de consulta Steam.",
+            "description": "Porta UDP de consulta Steam (server browser). Opcional. Aloque uma porta UDP e informe aqui.",
             "env_variable": "QUERY_PORT",
             "default_value": "27015",
             "user_viewable": true,
-            "user_editable": false,
+            "user_editable": true,
             "rules": "required|numeric",
+            "field_type": "text"
+        },
+        {
+            "name": "Porta do VNC",
+            "description": "Porta TCP do servidor VNC (Xvnc) para ver a tela do servidor. Aloque uma porta e informe aqui; conecte com um cliente VNC (TigerVNC/RealVNC) em IP:porta. Defina a Senha VNC para proteger.",
+            "env_variable": "VNC_PORT",
+            "default_value": "5900",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric",
+            "field_type": "text"
+        },
+        {
+            "name": "Permitir Conexao por IP",
+            "description": "Habilita conexao por IP direto (alem do invite code). Ativado por padrao por ser um servidor host. 'true' ou 'false'. Requer a porta 24642/udp alocada.",
+            "env_variable": "ALLOW_IP_CONNECTIONS",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
             "field_type": "text"
         },
         {
@@ -140,7 +160,7 @@
         },
         {
             "name": "Senha VNC",
-            "description": "Senha da UI web de VNC (max 8 chars). Vazio = VNC desativado. (A UI web de VNC nao e exposta por padrao nesta adaptacao de container unico.)",
+            "description": "Senha do servidor VNC (max 8 chars, limite do protocolo). Vazio = VNC sem senha (aberto, nao recomendado). Conecte com um cliente VNC em IP:porta-do-VNC.",
             "env_variable": "VNC_PASSWORD",
             "default_value": "",
             "user_viewable": true,
