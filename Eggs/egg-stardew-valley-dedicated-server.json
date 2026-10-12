@@ -157,6 +157,96 @@
             "user_editable": true,
             "rules": "nullable|string|max:8",
             "field_type": "text"
+        },
+        {
+            "name": "FPS de Render",
+            "description": "Taxa de desenho da tela. 0 = render desligado (recomendado, poupa CPU) -- o servidor roda headless e o VNC mostra 'Rendering Disabled'. Defina >0 (ex. 30) somente quando quiser ver o jogo pelo VNC.",
+            "env_variable": "SERVER_FPS",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|between:0,60",
+            "field_type": "text"
+        },
+        {
+            "name": "API habilitada",
+            "description": "Liga a API HTTP de controle (admin/ferramentas). ATENCAO: se definir 'false', o log 'API server listening on port' nao aparece e o painel NUNCA marca o servidor como iniciado -- deixe 'true' a menos que saiba o que faz.",
+            "env_variable": "API_ENABLED",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "Tentativas de login",
+            "description": "Numero de !login errados antes de expulsar o jogador (so com Senha do Servidor ativa). Padrao 3.",
+            "env_variable": "MAX_LOGIN_ATTEMPTS",
+            "default_value": "3",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|min:1",
+            "field_type": "text"
+        },
+        {
+            "name": "Timeout de autenticacao (s)",
+            "description": "Segundos ate expulsar jogadores nao autenticados (so com Senha do Servidor ativa). 0 = desliga. Padrao 120.",
+            "env_variable": "AUTH_TIMEOUT_SECONDS",
+            "default_value": "120",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|min:0",
+            "field_type": "text"
+        },
+        {
+            "name": "Auto-sleep: carencia (s)",
+            "description": "Segundos que um servidor vazio espera depois da 1:00 (hora do jogo) antes do host dormir e fechar o dia. Padrao 300.",
+            "env_variable": "AUTO_SLEEP_GRACE_SECONDS",
+            "default_value": "300",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|min:0",
+            "field_type": "text"
+        },
+        {
+            "name": "Idiomas de fonte (Steam)",
+            "description": "Mantem as fontes localizadas destes idiomas (codigos separados por virgula: de-DE,es-ES,fr-FR,ja-JP,ko-KR,pt-BR,ru-RU,zh-CN...). Vazio = so ingles (menor download). Afeta so a renderizacao de texto.",
+            "env_variable": "STEAM_KEEP_LANGUAGES",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:128",
+            "field_type": "text"
+        },
+        {
+            "name": "Validar jogo no boot",
+            "description": "A cada boot o steam-service verifica os arquivos do jogo e rebaixa pedacos corrompidos antes de subir. Padrao 'true'. 'false' pula a checagem (boot mais rapido, menos seguro).",
+            "env_variable": "VALIDATE_ON_BOOT",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "Intervalo do health check (s)",
+            "description": "Intervalo em segundos do health check interno do servidor. Padrao 300.",
+            "env_variable": "HEALTH_CHECK_SECONDS",
+            "default_value": "300",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|numeric|min:1",
+            "field_type": "text"
+        },
+        {
+            "name": "Log verboso",
+            "description": "Sobrescreve o log verboso do servidor. 'true' para diagnostico detalhado, 'false' normal. Padrao 'false'.",
+            "env_variable": "VERBOSE_LOGGING",
+            "default_value": "false",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
         }
     ]
 }
