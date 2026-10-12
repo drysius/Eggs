@@ -89,16 +89,6 @@
             "field_type": "text"
         },
         {
-            "name": "Porta do Jogo (UDP)",
-            "description": "Porta UDP de multiplayer. Segue a porta primaria alocada (SERVER_PORT). Jogadores conectam por IP (IP:porta) ou por invite code (Steam relay, sem porta). Padrao 24642.",
-            "env_variable": "GAME_PORT",
-            "default_value": "24642",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|numeric",
-            "field_type": "text"
-        },
-        {
             "name": "Porta de Query (UDP)",
             "description": "Porta UDP de consulta Steam (server browser). Opcional. Aloque uma porta UDP e informe aqui.",
             "env_variable": "QUERY_PORT",
